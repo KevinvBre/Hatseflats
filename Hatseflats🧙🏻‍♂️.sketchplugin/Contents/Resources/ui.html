@@ -1,0 +1,392 @@
+<!doctype html>
+<html onload="ui()">
+<head>
+	<style>
+	/*Sorry about this mess. Couldn't be botherd to setup a nice Sass env for something this hacky.*/
+
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		body,
+		html {
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			height: 100%;
+			font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+			background: #000;
+			overflow-x: hidden;
+			color:#fff;
+		}
+		div.container{
+			padding: 15px;
+		}
+		h1{font-size: 20px; margin:15px 0 30px 0; padding-bottom: 30px; border-bottom: 1px solid #484848;}
+		h1 span{border-radius: 3px;  background: #000; border: 1px solid #484848; padding: 3px 5px; color: #fff; font-size: 10px; margin-left: 5px; top: -3px; position: relative;}
+		p{margin-bottom:10px; color:#fff;}
+		p,ol,li{ font-size: 14px}
+		li{ margin: 5px 0 5px 20px;}
+		p.small{ font-size: 11px}
+		a{color:#ccc;}
+
+		header{border-bottom: 1px solid #484848; margin-bottom: -7px;padding-bottom: 30px;}
+
+		form > div{
+			position: relative;
+			border-top: 1px solid #efefef;
+			padding-top: 15px;
+			margin-top: 15px;
+		}
+
+		input.state{
+			background: #000;
+			color: #fff;
+			border: none;
+			border-bottom: 1px solid #484848;
+			width: 10%;
+			display: inline-block;
+			border-radius: 0px; padding: 10px;
+		}
+		input.bad{
+			border: none;
+			border-bottom: red 2px solid;
+		}
+		input.good{
+			border: none;
+			border-bottom: green 2px solid;
+		}
+
+	input[type="range"] {
+    margin: auto;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    height: 20px;
+		background: none;
+
+    cursor: pointer;
+    border-radius: 3px; /* iOS */
+}
+
+::-webkit-slider-runnable-track {
+    background: #484848;
+		border-radius: 3px;
+}
+
+/*
+ * 1. Set to 0 width and remove border for a slider without a thumb
+ */
+::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; /* 1 */
+    height: 1px;
+    background: #fff;
+    box-shadow: -100vw 0 0 100vw #fff;
+    border: none;
+}
+
+
+
+::-ms-ticks-after {
+    display: none;
+}
+
+::-ms-ticks-before {
+    display: none;
+}
+
+::-ms-track {
+    background: #ddd;
+    color: transparent;
+    height: 3px;
+    border: none;
+}
+
+::-ms-tooltip {
+    display: none;
+}
+
+
+		form  div input.text,
+		form  div input.range{
+			display: inline-block;
+		}
+		form  div input.range{
+			width: 80%;
+		}
+		form  div input.text{
+			width: 10%;
+			margin-left: 5%
+		}
+
+
+		.btn{
+			border-radius: 3px;  background: #fff; padding: 6px 10px; color: #000; font-size: 14px; font-weight: bold;
+			border:none;
+		}
+		.btn-small{ position: absolute; right: 15px; top:30px;}
+		.btn-big{padding: 15px;}
+		.buttonwrap{position: absolute; left:0; bottom:0; right:0; width:100%; display: block; padding: 15px; background: #000; box-shadow:0px 2px 30px 1px black; z-index: 900;}
+
+
+.faq-content {
+  margin: 0 auto;
+	margin-bottom: 60px;
+}
+
+.faq-question {
+  padding: 20px 0;
+  border-bottom: 1px solid #484848;
+}
+
+.panel-title {
+  font-size: 14px;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  padding: 10px 10px 0 30px;
+  display: block;
+  cursor: pointer;
+}
+
+.panel-content {
+
+  font-size: 20px;
+  padding: 0px 14px;
+  /* margin: 0 40px; */
+	margin: 0 -10px;
+
+  height: 0;
+  overflow: hidden;
+  z-index: 1;
+  position: relative;
+  opacity: 0;
+  -webkit-transition: .4s ease;
+  -moz-transition: .4s ease;
+  -o-transition: .4s ease;
+  transition: .4s ease;
+}
+
+.panel-content p{
+	font-size: 12px; text-transform: uppercase;
+}
+
+.panel-content>div{
+	position: relative;
+	margin-bottom: 15px;
+}
+input.range{
+	width: 80%;
+}
+
+input.text{
+	width: 10%;
+	position: relative;
+	float: right;
+
+	background: #000;
+	color: #fff;
+	border: none;
+	border-bottom: 1px solid #484848;
+}
+
+
+.panel:checked ~ .panel-content{
+  height: auto;
+  opacity: 1;
+  padding: 14px;
+}
+
+.plus {
+  position: absolute;
+  margin-left: -25px;
+  margin-top: -2px;
+  z-index: 5;
+  font-size: 20px;
+  line-height: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  -webkit-transition: .2s ease;
+  -moz-transition: .2s ease;
+  -o-transition: .2s ease;
+  transition: .2s ease;
+}
+
+.panel:checked ~ label .plus {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.panel {
+  display: none;
+}
+
+	</style>
+</head>
+
+
+
+<body >
+	<div class="container">
+
+
+		<header>
+				<div class="intro">
+					<h1>Hatseflats <span>Beta 0.1</span></h1>
+					<p><a href="#" target="_blank">Hatseflats</a> is a first attempt to get some form of <a href="https://en.wikipedia.org/wiki/Generative_design" target="_blank">Generative Design</a> into the UI wireframe design process.</p>
+					<ol>
+						<li>Define your projectgoals.</li>
+						<li>Define pagegoals.</li>
+						<li>Hit create design.</li>
+					</ol>
+				</div>
+
+				<!-- <button onclick="updateProjectGoals()" class="btn btn-small">Create design</button> -->
+		</header>
+
+
+
+
+<div class="faq-content">
+  <div class="faq-question">
+    <input id="q1" type="checkbox" class="panel">
+
+    <label for="q1" class="panel-title"><div class="plus">+</div>Projectgoals</label>
+    <div class="panel-content">
+
+
+			<p class="small points">Points spend <input id="js-projectGoalPointsLeft" class="state" value="100" disabled></input>  (max 200)</p>
+
+			<div class="">
+				<p>Business:</p>
+				<input id="js-BusinessRange" class="range"  type="range"  value="1" min="0" max="100" oninput="updateBusinessRange(this.value)">
+				<input id="js-BusinessText"  class="text"    type="text"  name="" value="1"  oninput="updateBusinessText(this.value)">
+			</div>
+
+			<div class="">
+				<p>Creative:</p>
+				<input id="js-CreativeRange" class="range"  type="range"  value="1" min="0" max="100" oninput="updateCreativeRange(this.value)">
+				<input id="js-CreativeText"  class="text"    type="text"  name="" value="1"  oninput="updateCreativeText(this.value)">
+			</div>
+
+
+			<div class="">
+				<p>Ecommerce:</p>
+				<input id="js-EcommerceRange" class="range"  type="range"  value="90" min="0" max="100" oninput="updateEcommerceRange(this.value)">
+				<input id="js-EcommerceText"  class="text"    type="text"  name="" value="90"  oninput="updateEcommerceText(this.value)">
+			</div>
+
+
+			<div class="">
+				<p>Informative:</p>
+				<input id="js-InformativeRange" class="range"  type="range"  value="38" min="0" max="100" oninput="updateInformativeRange(this.value)">
+				<input id="js-InformativeText"  class="text"    type="text"  name="" value="38"  oninput="updateInformativeText(this.value)">
+			</div>
+
+
+			<div class="">
+				<p>Inspire:</p>
+				<input id="js-InspireRange" class="range"  type="range"  value="1" min="0" max="100" oninput="updateInspireRange(this.value)">
+				<input id="js-InspireText"  class="text"    type="text"  name="" value="1"  oninput="updateInspireText(this.value)">
+			</div>
+
+			<div class="">
+				<p>Service:</p>
+				<input id="js-ServiceRange" class="range"  type="range"  value="40" min="0" max="100" oninput="updateServiceRange(this.value)">
+				<input id="js-ServiceText"  class="text"    type="text"  name="" value="40"  oninput="updateServiceText(this.value)">
+			</div>
+
+		</div>
+  </div>
+
+  <div class="faq-question">
+    <input id="q2" type="checkbox" class="panel" >
+
+    <label for="q2" class="panel-title"><div class="plus">+</div>Pagegoals</label>
+    <div class="panel-content">
+
+					<p class="small points">Pagegoal points left <input id="js-pageGoalPointsLeft" class="state" value="100" disabled></input></p>
+
+					<div class="">
+						<p>Browse:</p>
+						<input id="js-BrowseRange" class="range"  type="range"  value="78" min="0" max="100" oninput="updateBrowseRange(this.value)">
+						<input id="js-BrowseText"  class="text"    type="text"  name="" value="78"  oninput="updateBrowseText(this.value)">
+					</div>
+					<div class="">
+						<p>ShowOptions:</p>
+						<input id="js-ShowOptionsRange" class="range"  type="range"  value="20" min="0" max="100" oninput="updateShowOptionsRange(this.value)">
+						<input id="js-ShowOptionsText"  class="text"    type="text"  name="" value="20"  oninput="updateShowOptionsText(this.value)">
+					</div>
+					<div class="">
+						<p>Read:</p>
+						<input id="js-ReadRange" class="range"  type="range"  value="1" min="0" max="100" oninput="updateReadRange(this.value)">
+						<input id="js-ReadText"  class="text"    type="text"  name="" value="1"  oninput="updateReadText(this.value)">
+					</div>
+
+					<div class="">
+						<p>Converse:</p>
+						<input id="js-ConverseRange" class="range"  type="range"  value="1" min="0" max="100" oninput="updateConverseRange(this.value)">
+						<input id="js-ConverseText"  class="text"    type="text"  name="" value="1"  oninput="updateConverseText(this.value)">
+					</div>
+		</div>
+  </div>
+
+  <div class="faq-question">
+    <input id="q3" type="checkbox" class="panel">
+
+    <label for="q3" class="panel-title"><div class="plus">+</div>Miscellaneous</label>
+    <div class="panel-content">
+			<p class="small points">Misc points left <input id="js-miscPointsLeft" class="state" value="100" disabled></input></p>
+
+			<div class="">
+				<p>projectSize:</p>
+				<input id="js-projectSizeRange" class="range"  type="range"  value="60" min="0" max="100" oninput="updateprojectSizeRange(this.value)">
+				<input id="js-projectSizeText"  class="text"    type="text"  name="" value="60"  oninput="updateprojectSizeText(this.value)">
+			</div>
+			<div class="">
+				<p>brandAwereness:</p>
+				<input id="js-brandAwerenessRange" class="range"  type="range"  value="40" min="0" max="100" oninput="updatebrandAwerenessRange(this.value)">
+				<input id="js-brandAwerenessText"  class="text"    type="text"  name="" value="40"  oninput="updatebrandAwerenessText(this.value)">
+			</div>
+			<div class="">
+				<p>seoImportance:</p>
+				<input id="js-seoImportanceRange" class="range"  type="range"  value="30" min="0" max="100" oninput="updateseoImportanceRange(this.value)">
+				<input id="js-seoImportanceText"  class="text"    type="text"  name="" value="30"  oninput="updateseoImportanceText(this.value)">
+			</div>
+
+			<div class="">
+				<p>userAge:</p>
+				<input id="js-userAgeRange" class="range"  type="range"  value="21" min="0" max="100" oninput="updateuserAgeRange(this.value)">
+				<input id="js-userAgeText"  class="text"    type="text"  name="" value="21"  oninput="updateuserAgeText(this.value)">
+			</div>
+			<div class="">
+				<p>usersTechSavy:</p>
+				<input id="js-usersTechSavyRange" class="range"  type="range"  value="30" min="0" max="100" oninput="updateusersTechSavyRange(this.value)">
+				<input id="js-usersTechSavyText"  class="text"    type="text"  name="" value="30"  oninput="updateusersTechSavyText(this.value)">
+			</div>
+
+		</div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+	<div class="buttonwrap">
+		<button onclick="updateProjectGoals()" class="btn btn-big">Create design</button>
+	</div>
+
+	<!-- <script src="/Users/kevin/Documents/Dev/hatseflatsReborn/MODEL/index.js"></script> -->
+	<script src="index.js"></script>
+	</body>
+</html>

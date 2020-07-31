@@ -1,0 +1,43 @@
+{
+  "name": "Hatseflats",
+  "description": "Proof of concept for generative code based wireframes",
+  "author": "Kevin van Breemaat",
+  "homepage": "http://www.kevinvanbreemaat.nl",
+  "version": "0.1",
+  "identifier": "org.example.template",
+  "appcast": "https://example.org/template-plugin-appcast.xml",
+  "icon": "icon.png",
+  "compatibleVersion": "49",
+  "bundleVersion": 1,
+  "commands": [
+    {
+      "name": "Start! 🚀",
+      "identifier": "run",
+      "shortcut": "",
+      "script": "script.js",
+      "handler": "onRun"
+    },
+    {
+      "name": "Download Sketch Library",
+      "identifier": "download",
+      "shortcut": "",
+      "script": "script.js",
+      "handler": "download"
+    },
+    {
+        "name": "About the project",
+        "identifier": "about",
+        "script": "script.js",
+        "handler": "website"
+    },
+  ],
+  "menu": {
+    "title": "Hatseflats 🧙🏻‍♂️",
+    "items": [
+      "run",
+      "-",
+      "download",
+      "about"
+    ]
+  }
+}
